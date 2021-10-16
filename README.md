@@ -95,7 +95,7 @@ data/
 For instance segmentation, you can directly use mim to train and test the model
 
 ```bash
-# train instance segmentation models
+# train instance/panoptic segmentation models
 sh ./tools/mim_slurm_train.sh $PARTITION mmdet $CONFIG $WORK_DIR
 
 # test instance segmentation models
