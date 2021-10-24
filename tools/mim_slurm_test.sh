@@ -15,6 +15,7 @@ PY_ARGS=${@:5}
 PYTHONPATH='.':$PYTHONPATH mim test $TASK $CONFIG \
     --launcher slurm -G $GPUS \
     --gpus-per-node $GPUS_PER_NODE \
+    --cpus-per-task $CPUS_PER_TASK \
     --partition $PARTITION \
     --checkpoint $WORK_DIR \
     $PY_ARGS

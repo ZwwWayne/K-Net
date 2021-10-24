@@ -25,30 +25,3 @@ model = dict(
         convert_weights=True,
         init_cfg=dict(type='Pretrained', checkpoint=pretrained)),
     neck=dict(in_channels=[192, 384, 768, 1536]))
-
-# update the parameter wise config according to Swin for mask rcnn
-optimizer = dict(
-    _delete_=True,
-    type='AdamW',
-    lr=0.0001,
-    betas=(0.9, 0.999),
-    weight_decay=0.05,
-    paramwise_cfg=dict(
-        custom_keys={
-            'absolute_pos_embed': dict(decay_mult=0.),
-            'relative_position_bias_table': dict(decay_mult=0.),
-            'norm': dict(decay_mult=0.)
-        }))
-
-custom_imports = dict(
-    imports=[
-        'knet.det.knet',
-        'knet.det.kernel_head',
-        'knet.det.kernel_iter_head',
-        'knet.det.kernel_update_head',
-        'knet.det.semantic_fpn_wrapper',
-        'knet.kernel_updator',
-        'knet.det.mask_hungarian_assigner',
-        'knet.det.mask_pseudo_sampler',
-    ],
-    allow_failed_imports=False)
