@@ -137,7 +137,7 @@ PYTHONPATH='.':$PYTHONPATH mim train mmseg $CONFIG $WORK_DIR
 ## Citation
 
 ```
-@inproceedings{e{zhang2021knet,
+@inproceedings{zhang2021knet,
     title={{K-Net: Towards} Unified Image Segmentation}, 
     author={Wenwei Zhang and Jiangmiao Pang and Kai Chen and Chen Change Loy},
     year={2021},
