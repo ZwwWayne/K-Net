@@ -31,7 +31,6 @@ The model checkpoints and logs will be released soon.
 | :---: | :---: | :---: | :---: | :---: | :---: |
 | R-50  | K-Net | 1x        | 34.0 |[config](configs/det/knet/knet_s3_r50_fpn_1x_coco.py) | [model]() &#124;  [log]() |
 | R-50  | K-Net | ms-3x     | 37.8 |[config](configs/det/knet/knet_s3_r50_fpn_ms-3x_coco.py) | [model]() &#124;  [log]() |
-| R-50  | K-Net | ms-3x(k=300)     | 38.7 |[config](configs/det/knet/knet_s3_r50_fpn_ms-3x_coco.py) | [model]() &#124;  [log]() |
 | R-101  | K-Net | ms-3x    | 39.2 |[config](configs/det/knet/knet_s3_r101_fpn_ms-3x_coco.py) | [model]() &#124;  [log]() |
 | R-101-DCN | K-Net | ms-3x | 40.5 |[config](configs/det/knet/knet_s3_r101_dcn-c3-c5_fpn_ms-3x_coco.py) | [model]() &#124;  [log]() |
 
@@ -45,6 +44,7 @@ The model checkpoints and logs will be released soon.
 | R-101-DCN  | K-Net | ms-3x| 49.6 |[config](configs/det/knet/knet_s3_r101_dcn-c3-c5_fpn_ms-3x_coco-panoptic.py) | [model]() &#124;  [log]() |
 | Swin-L (window size 7)  | K-Net | ms-3x| 54.6 |[config](configs/det/knet/knet_s3_swin-l_fpn_ms-3x_16x2_coco-panoptic.py) | [model]() &#124;  [log]() |
 | Above on test-dev  | | | 55.2 | | |
+| Swin-L (window size 12)  | K-Net | ms-3x| 54.6 |[config](configs/det/knet/knet_s3_swin-l_fpn_ms-3x_16x2_coco-panoptic.py) | [model]() &#124;  [log]() |
 
 ## Installation
 
