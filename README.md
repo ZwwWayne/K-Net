@@ -31,7 +31,6 @@ The model checkpoints and logs will be released soon.
 | :---: | :---: | :---: | :---: | :---: | :---: |
 | R-50  | K-Net | 1x        | 34.0 |[config](configs/det/knet/knet_s3_r50_fpn_1x_coco.py) | [model]() &#124;  [log]() |
 | R-50  | K-Net | ms-3x     | 37.8 |[config](configs/det/knet/knet_s3_r50_fpn_ms-3x_coco.py) | [model]() &#124;  [log]() |
-| R-50  | K-Net | ms-3x(k=300)     | 38.7 |[config](configs/det/knet/knet_s3_r50_fpn_ms-3x_coco.py) | [model]() &#124;  [log]() |
 | R-101  | K-Net | ms-3x    | 39.2 |[config](configs/det/knet/knet_s3_r101_fpn_ms-3x_coco.py) | [model]() &#124;  [log]() |
 | R-101-DCN | K-Net | ms-3x | 40.5 |[config](configs/det/knet/knet_s3_r101_dcn-c3-c5_fpn_ms-3x_coco.py) | [model]() &#124;  [log]() |
 
@@ -39,12 +38,12 @@ The model checkpoints and logs will be released soon.
 
 | Backbone | Method | Lr Schd | PQ | Config | Download |
 | :---: | :---: | :---: | :---: | :---: | :---: |
-| R-50  | K-Net | 1x| 44.2 |[config](configs/det/knet/knet_s3_r50_fpn_1x_coco-panoptic.py) | [model]() &#124;  [log]() |
-| R-50  | K-Net | ms-3x| 47.3 |[config](configs/det/knet/knet_s3_r50_fpn_ms-3x_coco-panoptic.py) | [model]() &#124;  [log]() |
-| R-101  | K-Net | ms-3x| - |[config](configs/det/knet/knet_s3_r101_fpn_ms-3x_coco-panoptic.py) | [model]() &#124;  [log]() |
-| R-101-DCN  | K-Net | ms-3x| - |[config](configs/det/knet/knet_s3_r101_dcn-c3-c5_fpn_ms-3x_coco-panoptic.py) | [model]() &#124;  [log]() |
-| Swin-L  | K-Net | ms-3x| 54.4 |[config](configs/det/knet/knet_s3_swin-l_fpn_ms-3x_coco-panoptic.py) | [model]() &#124;  [log]() |
-
+| R-50  | K-Net | 1x| 44.3 |[config](configs/det/knet/knet_s3_r50_fpn_1x_coco-panoptic.py) | [model]() &#124;  [log]() |
+| R-50  | K-Net | ms-3x| 47.1 |[config](configs/det/knet/knet_s3_r50_fpn_ms-3x_coco-panoptic.py) | [model]() &#124;  [log]() |
+| R-101  | K-Net | ms-3x| 48.4 |[config](configs/det/knet/knet_s3_r101_fpn_ms-3x_coco-panoptic.py) | [model]() &#124;  [log]() |
+| R-101-DCN  | K-Net | ms-3x| 49.6 |[config](configs/det/knet/knet_s3_r101_dcn-c3-c5_fpn_ms-3x_coco-panoptic.py) | [model]() &#124;  [log]() |
+| Swin-L (window size 7)  | K-Net | ms-3x| 54.6 |[config](configs/det/knet/knet_s3_swin-l_fpn_ms-3x_16x2_coco-panoptic.py) | [model]() &#124;  [log]() |
+| Above on test-dev  | | | 55.2 | | |
 
 ## Installation
 
@@ -60,7 +59,7 @@ It requires the following OpenMMLab packages:
 ```bash
 pip install openmim scipy mmdet mmsegmentation
 pip install git+https://github.com/cocodataset/panopticapi.git
-mim install mmcv-full==1.3.14
+mim install mmcv-full
 ```
 
 ## License
@@ -92,10 +91,10 @@ data/
 
 ### Training and testing
 
-For instance segmentation, you can directly use mim to train and test the model
+For training and testing, you can directly use mim to train and test the model
 
 ```bash
-# train instance segmentation models
+# train instance/panoptic segmentation models
 sh ./tools/mim_slurm_train.sh $PARTITION mmdet $CONFIG $WORK_DIR
 
 # test instance segmentation models
@@ -111,11 +110,15 @@ sh ./tools/mim_slurm_train.sh $PARTITION mmseg $CONFIG $WORK_DIR
 sh ./tools/mim_slurm_test.sh $PARTITION mmseg $CONFIG $CHECKPOINT --eval mIoU
 ```
 
-- PARTITION: the slurm partition you are using
-- CHECKPOINT: the path of the checkpoint downloaded from our model zoo or trained by yourself
-- WORK_DIR: the working directory to save configs, logs, and checkpoints
-- CONFIG: the config files under the directory `configs/`
-- JOB_NAME: the name of the job that are necessary for slurm
+For test submission for panoptic segmentation, you can use the command below:
+
+```bash
+# we should update the category information in the original image test-dev pkl file
+# for panoptic segmentation
+python -u gen_panoptic_test_info.py
+# run test-dev submission
+sh ./tools/mim_slurm_test.sh $PARTITION mmdet $CONFIG $CHECKPOINT  --format-only --cfg-options data.test.ann_file=data/coco/annotations/panoptic_image_info_test-dev2017.json data.test.img_prefix=data/coco/test2017 --eval-options jsonfile_prefix=$WORK_DIR
+```
 
 You can also run training and testing without slurm by directly using mim for instance/semantic/panoptic segmentation like below:
 
@@ -123,10 +126,17 @@ You can also run training and testing without slurm by directly using mim for in
 PYTHONPATH='.':$PYTHONPATH mim train mmdet $CONFIG $WORK_DIR
 PYTHONPATH='.':$PYTHONPATH mim train mmseg $CONFIG $WORK_DIR
 ```
+
+- PARTITION: the slurm partition you are using
+- CHECKPOINT: the path of the checkpoint downloaded from our model zoo or trained by yourself
+- WORK_DIR: the working directory to save configs, logs, and checkpoints
+- CONFIG: the config files under the directory `configs/`
+- JOB_NAME: the name of the job that are necessary for slurm
+
 ## Citation
 
 ```
-@inproceedings{e{zhang2021knet,
+@inproceedings{zhang2021knet,
     title={{K-Net: Towards} Unified Image Segmentation}, 
     author={Wenwei Zhang and Jiangmiao Pang and Kai Chen and Chen Change Loy},
     year={2021},

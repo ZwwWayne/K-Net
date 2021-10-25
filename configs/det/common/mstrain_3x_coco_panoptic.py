@@ -5,15 +5,30 @@ data_root = 'data/coco/'
 img_norm_cfg = dict(
     mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
 
+# file_client_args = dict(backend='disk',)
+# file_client_args = dict(
+#     backend='petrel',
+#     path_mapping=dict({
+#         './data/': 's3://openmmlab/datasets/detection/',
+#         'data/': 's3://openmmlab/datasets/detection/'
+#     }))
+file_client_args = dict(
+    backend='memcached',
+    server_list_cfg='/mnt/lustre/share/memcached_client/server_list.conf',
+    client_cfg='/mnt/lustre/share/memcached_client/client.conf',
+    sys_path='/mnt/lustre/share/pymc/py3',
+)
+
 # In mstrain 3x config, img_scale=[(1333, 640), (1333, 800)],
 # multiscale_mode='range'
 train_pipeline = [
-    dict(type='LoadImageFromFile'),
+    dict(type='LoadImageFromFile', file_client_args=file_client_args),
     dict(
         type='LoadPanopticAnnotations',
         with_bbox=True,
         with_mask=True,
-        with_seg=True),
+        with_seg=True,
+        file_client_args=file_client_args),
     dict(
         type='Resize',
         img_scale=[(1333, 640), (1333, 800)],
@@ -29,7 +44,7 @@ train_pipeline = [
 ]
 
 test_pipeline = [
-    dict(type='LoadImageFromFile'),
+    dict(type='LoadImageFromFile', file_client_args=file_client_args),
     dict(
         type='MultiScaleFlipAug',
         img_scale=(1333, 800),
