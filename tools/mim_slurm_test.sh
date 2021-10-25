@@ -17,5 +17,6 @@ PYTHONPATH='.':$PYTHONPATH mim test $TASK $CONFIG \
     --gpus-per-node $GPUS_PER_NODE \
     --cpus-per-task $CPUS_PER_TASK \
     --partition $PARTITION \
+    --srun-args "$SRUN_ARGS" \
     --checkpoint $WORK_DIR \
     $PY_ARGS

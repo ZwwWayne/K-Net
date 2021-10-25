@@ -44,7 +44,6 @@ The model checkpoints and logs will be released soon.
 | R-101-DCN  | K-Net | ms-3x| 49.6 |[config](configs/det/knet/knet_s3_r101_dcn-c3-c5_fpn_ms-3x_coco-panoptic.py) | [model]() &#124;  [log]() |
 | Swin-L (window size 7)  | K-Net | ms-3x| 54.6 |[config](configs/det/knet/knet_s3_swin-l_fpn_ms-3x_16x2_coco-panoptic.py) | [model]() &#124;  [log]() |
 | Above on test-dev  | | | 55.2 | | |
-| Swin-L (window size 12)  | K-Net | ms-3x| 54.6 |[config](configs/det/knet/knet_s3_swin-l_fpn_ms-3x_16x2_coco-panoptic.py) | [model]() &#124;  [log]() |
 
 ## Installation
 
@@ -118,7 +117,7 @@ For test submission for panoptic segmentation, you can use the command below:
 # for panoptic segmentation
 python -u gen_panoptic_test_info.py
 # run test-dev submission
-sh ./tools/mim_slurm_test.sh $PARTITION mmdet $CONFIG $CHECKPOINT  --format-only --cfg-options data.test.ann_file=data/coco/annotations/image_info_test-dev2017.json data.test.img_prefix=data/coco/test2017 --eval-options jsonfile_prefix=$WORK_DIR
+sh ./tools/mim_slurm_test.sh $PARTITION mmdet $CONFIG $CHECKPOINT  --format-only --cfg-options data.test.ann_file=data/coco/annotations/panoptic_image_info_test-dev2017.json data.test.img_prefix=data/coco/test2017 --eval-options jsonfile_prefix=$WORK_DIR
 ```
 
 You can also run training and testing without slurm by directly using mim for instance/semantic/panoptic segmentation like below:
