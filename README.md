@@ -4,10 +4,10 @@
 
 This is an official release of the paper **K-Net:Towards Unified Image Segmentation**. K-Net will also be integrated in the future release of MMDetection and MMSegmentation.
 
-> [**K-Net:Towards Unified Image Segmentation**](https://arxiv.org/abs/2106.14855),            
-> Wenwei Zhang, Jiangmiao Pang, Kai Chen, Chen Change Loy     
-> In: Proc. Advances in Neural Information Processing Systems (NeurIPS), 2021     
-> *arXiv preprint ([arXiv 2106.14855](https://arxiv.org/abs/2106.14855))*   
+> [**K-Net:Towards Unified Image Segmentation**](https://arxiv.org/abs/2106.14855),
+> Wenwei Zhang, Jiangmiao Pang, Kai Chen, Chen Change Loy
+> In: Proc. Advances in Neural Information Processing Systems (NeurIPS), 2021
+> *arXiv preprint ([arXiv 2106.14855](https://arxiv.org/abs/2106.14855))*
 
 ## Results
 
@@ -115,7 +115,7 @@ For test submission for panoptic segmentation, you can use the command below:
 ```bash
 # we should update the category information in the original image test-dev pkl file
 # for panoptic segmentation
-python -u gen_panoptic_test_info.py
+python -u tools/gen_panoptic_test_info.py
 # run test-dev submission
 sh ./tools/mim_slurm_test.sh $PARTITION mmdet $CONFIG $CHECKPOINT  --format-only --cfg-options data.test.ann_file=data/coco/annotations/panoptic_image_info_test-dev2017.json data.test.img_prefix=data/coco/test2017 --eval-options jsonfile_prefix=$WORK_DIR
 ```
@@ -137,7 +137,7 @@ PYTHONPATH='.':$PYTHONPATH mim train mmseg $CONFIG $WORK_DIR
 
 ```
 @inproceedings{zhang2021knet,
-    title={{K-Net: Towards} Unified Image Segmentation}, 
+    title={{K-Net: Towards} Unified Image Segmentation},
     author={Wenwei Zhang and Jiangmiao Pang and Kai Chen and Chen Change Loy},
     year={2021},
     booktitle={NeurIPS},

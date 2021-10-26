@@ -1,7 +1,7 @@
 import numpy as np
 import torch
-import torch.nn.functional as F
-from mmdet.core import AssignResult, BaseAssigner, reduce_mean
+
+from mmdet.core import AssignResult, BaseAssigner
 from mmdet.core.bbox.builder import BBOX_ASSIGNERS
 from mmdet.core.bbox.match_costs.builder import MATCH_COST, build_match_cost
 
@@ -100,15 +100,12 @@ class MaskCost(object):
             cls_pred = cls_pred.sigmoid()
         elif self.pred_act:
             cls_pred = cls_pred.softmax(dim=0)
-        num_proposals = cls_pred.shape[0]
-        num_gts, H, W = target.shape
+
+        _, H, W = target.shape
         # flatten_cls_pred = cls_pred.view(num_proposals, -1)
         # eingum is ~10 times faster than matmul
         pos_cost = torch.einsum('nhw,mhw->nm', cls_pred, target)
         neg_cost = torch.einsum('nhw,mhw->nm', 1 - cls_pred, 1 - target)
-        # flatten_target = target.view(num_gts, -1).t()
-        # pos_cost = flatten_cls_pred.matmul(flatten_target)
-        # neg_cost = (1 - flatten_cls_pred).matmul(1 - flatten_target)
         cls_cost = -(pos_cost + neg_cost) / (H * W)
         return cls_cost * self.weight
 

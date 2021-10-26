@@ -1,10 +1,10 @@
 import torch
 import torch.nn.functional as F
+
 from mmdet.models.builder import DETECTORS
 from mmdet.models.detectors import TwoStageDetector
-
-from .utils import sem2ins_masks
 from mmdet.utils import get_root_logger
+from .utils import sem2ins_masks
 
 
 @DETECTORS.register_module()
@@ -36,29 +36,7 @@ class KNet(TwoStageDetector):
                       proposals=None,
                       gt_semantic_seg=None,
                       **kwargs):
-        """Forward function of SparseR-CNN in train stage.
 
-        Args:
-            img (Tensor): of shape (N, C, H, W) encoding input images.
-                Typically these should be mean centered and std scaled.
-            img_metas (list[dict]): list of image info dict where each dict
-                has: 'img_shape', 'scale_factor', 'flip', and may also contain
-                'filename', 'ori_shape', 'pad_shape', and 'img_norm_cfg'.
-                For details on the values of these keys see
-                :class:`mmdet.datasets.pipelines.Collect`.
-            gt_bboxes (list[Tensor]): Ground truth bboxes for each image with
-                shape (num_gts, 4) in [tl_x, tl_y, br_x, br_y] format.
-            gt_labels (list[Tensor]): class indices corresponding to each box
-            gt_bboxes_ignore (None | list[Tensor): specify which bounding
-                boxes can be ignored when computing the loss.
-            gt_masks (List[Tensor], optional) : Segmentation masks for
-                each box. But we don't support it in this architecture.
-            proposals (List[Tensor], optional): override rpn proposals with
-                custom proposals. Use when `with_rpn` is False.
-
-        Returns:
-            dict[str, Tensor]: a dictionary of loss components
-        """
         super(TwoStageDetector, self).forward_train(img, img_metas)
         assert proposals is None, 'KNet does not support' \
                                   ' external proposals'
@@ -138,19 +116,6 @@ class KNet(TwoStageDetector):
         return losses
 
     def simple_test(self, img, img_metas, rescale=False):
-        """Test function without test time augmentation.
-
-        Args:
-            imgs (list[torch.Tensor]): List of multiple images
-            img_metas (list[dict]): List of image information.
-            rescale (bool): Whether to rescale the results.
-                Defaults to False.
-
-        Returns:
-            list[list[np.ndarray]]: BBox results of each image and classes.
-                The outer list corresponds to each image. The inner list
-                corresponds to each class.
-        """
         x = self.extract_feat(img)
         rpn_results = self.rpn_head.simple_test_rpn(x, img_metas)
         (proposal_feats, x_feats, mask_preds, cls_scores,

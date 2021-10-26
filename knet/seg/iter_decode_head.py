@@ -1,4 +1,3 @@
-import torch
 import torch.nn as nn
 from mmseg.models.builder import HEADS, build_head
 from mmseg.models.decode_heads.decode_head import BaseDecodeHead
