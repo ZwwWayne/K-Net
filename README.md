@@ -82,7 +82,8 @@ data/
 │   ├── annotations
 │   │   ├── panoptic_{train,val}2017.json
 │   │   ├── instance_{train,val}2017.json
-│   │   ├── panoptic_{train,val}2017/  # png annotations
+│   │   ├── panoptic_{train,val}2017/  # panoptic png annotations
+│   │   ├── image_info_test-dev2017.json  # for test-dev submissions
 │   ├── train2017
 │   ├── val2017
 │   ├── test2017
