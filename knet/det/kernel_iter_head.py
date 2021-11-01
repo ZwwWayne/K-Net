@@ -1,11 +1,11 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+
 from mmdet.core import build_assigner, build_sampler
+from mmdet.datasets.coco_panoptic import INSTANCE_OFFSET
 from mmdet.models.builder import HEADS, build_head
 from mmdet.models.roi_heads import BaseRoIHead
-from mmdet.datasets.coco_panoptic import INSTANCE_OFFSET
-
 from .mask_pseudo_sampler import MaskPseudoSampler
 
 
@@ -62,7 +62,10 @@ class KernelIterHead(BaseRoIHead):
         self.thing_label_in_seg = thing_label_in_seg
         self.num_proposals = num_proposals
         super(KernelIterHead, self).__init__(
-            mask_head=mask_head, train_cfg=train_cfg, test_cfg=test_cfg, **kwargs)
+            mask_head=mask_head,
+            train_cfg=train_cfg,
+            test_cfg=test_cfg,
+            **kwargs)
         # train_cfg would be None when run the test.py
         if train_cfg is not None:
             for stage in range(num_stages):
@@ -301,17 +304,19 @@ class KernelIterHead(BaseRoIHead):
         # resize mask predictions back
         scores = cls_scores[:self.num_proposals][:, :self.num_thing_classes]
         thing_scores, thing_labels = scores.max(dim=1)
-        stuff_scores = cls_scores[self.num_proposals:][:, self.num_thing_classes:].diag()
-        stuff_labels = torch.arange(0, self.num_stuff_classes) + self.num_thing_classes
+        stuff_scores = cls_scores[
+            self.num_proposals:][:, self.num_thing_classes:].diag()
+        stuff_labels = torch.arange(
+            0, self.num_stuff_classes) + self.num_thing_classes
         stuff_labels = stuff_labels.to(thing_labels.device)
 
         total_masks = self.mask_head[-1].rescale_masks(mask_preds, img_meta)
         total_scores = torch.cat([thing_scores, stuff_scores], dim=0)
         total_labels = torch.cat([thing_labels, stuff_labels], dim=0)
 
-        panoptic_result = self.merge_stuff_thing(
-            total_masks, total_labels, total_scores,
-            test_cfg.merge_stuff_thing)
+        panoptic_result = self.merge_stuff_thing(total_masks, total_labels,
+                                                 total_scores,
+                                                 test_cfg.merge_stuff_thing)
         return dict(pan_results=panoptic_result)
 
     def merge_stuff_thing(self,
@@ -321,14 +326,12 @@ class KernelIterHead(BaseRoIHead):
                           merge_cfg=None):
 
         H, W = total_masks.shape[-2:]
-        panoptic_seg = total_masks.new_full(
-            (H, W),
-            self.num_classes, dtype=torch.long)
+        panoptic_seg = total_masks.new_full((H, W),
+                                            self.num_classes,
+                                            dtype=torch.long)
 
         cur_prob_masks = total_scores.view(-1, 1, 1) * total_masks
-        segments_info = []
         cur_mask_ids = cur_prob_masks.argmax(0)
-        stuff_memory_list = {}
 
         # sort instance outputs by scores
         sorted_inds = torch.argsort(-total_scores)
@@ -348,7 +351,8 @@ class KernelIterHead(BaseRoIHead):
                 if mask_area / original_area < merge_cfg.overlap_thr:
                     continue
 
-                panoptic_seg[mask] = total_labels[k] + current_segment_id * INSTANCE_OFFSET
+                panoptic_seg[mask] = total_labels[k] \
+                    + current_segment_id * INSTANCE_OFFSET
                 current_segment_id += 1
 
         return panoptic_seg.cpu().numpy()

@@ -4,14 +4,16 @@
 
 This is an official release of the paper **K-Net:Towards Unified Image Segmentation**. K-Net will also be integrated in the future release of MMDetection and MMSegmentation.
 
-> [**K-Net:Towards Unified Image Segmentation**](https://arxiv.org/abs/2106.14855),            
-> Wenwei Zhang, Jiangmiao Pang, Kai Chen, Chen Change Loy     
-> In: Proc. Advances in Neural Information Processing Systems (NeurIPS), 2021     
-> *arXiv preprint ([arXiv 2106.14855](https://arxiv.org/abs/2106.14855))*   
+> [**K-Net:Towards Unified Image Segmentation**](https://arxiv.org/abs/2106.14855),
+> Wenwei Zhang, Jiangmiao Pang, Kai Chen, Chen Change Loy
+> In: Proc. Advances in Neural Information Processing Systems (NeurIPS), 2021
+> *arXiv preprint ([arXiv 2106.14855](https://arxiv.org/abs/2106.14855))*
 
 ## Results
 
-The model checkpoints and logs will be released soon.
+The results of K-Net and their corresponding configs on each segmentation task are shown as below.
+We have released the full model zoo of panoptic segmentation.
+The complete model checkpoints and logs for instance and semantic segmentation will be released soon.
 
 ### Semantic Segmentation on ADE20K
 
@@ -29,20 +31,20 @@ The model checkpoints and logs will be released soon.
 
 | Backbone | Method | Lr Schd | Mask mAP| Config | Download |
 | :---: | :---: | :---: | :---: | :---: | :---: |
-| R-50  | K-Net | 1x        | 34.0 |[config](configs/det/knet/knet_s3_r50_fpn_1x_coco.py) | [model]() &#124;  [log]() |
-| R-50  | K-Net | ms-3x     | 37.8 |[config](configs/det/knet/knet_s3_r50_fpn_ms-3x_coco.py) | [model]() &#124;  [log]() |
-| R-101  | K-Net | ms-3x    | 39.2 |[config](configs/det/knet/knet_s3_r101_fpn_ms-3x_coco.py) | [model]() &#124;  [log]() |
-| R-101-DCN | K-Net | ms-3x | 40.5 |[config](configs/det/knet/knet_s3_r101_dcn-c3-c5_fpn_ms-3x_coco.py) | [model]() &#124;  [log]() |
+| R-50  | K-Net | 1x        | 34.0 |[config](configs/det/knet/knet_s3_r50_fpn_1x_coco.py) | [model](https://download.openmmlab.com/mim-example/knet/det/knet/knet_s3_r50_fpn_1x_coco/knet_s3_r50_fpn_1x_coco_20211016_113017-8a8645d4.pth) &#124;  [log](https://download.openmmlab.com/mim-example/knet/det/knet/knet_s3_r50_fpn_1x_coco/knet_s3_r50_fpn_1x_coco_20211016_113017.log.json) |
+| R-50  | K-Net | ms-3x     | 37.8 |[config](configs/det/knet/knet_s3_r50_fpn_ms-3x_coco.py) | [model](https://download.openmmlab.com/mim-example/knet/) &#124;  [log](https://download.openmmlab.com/mim-example/knet/) |
+| R-101  | K-Net | ms-3x    | 39.2 |[config](configs/det/knet/knet_s3_r101_fpn_ms-3x_coco.py) | [model](https://download.openmmlab.com/mim-example/knet/) &#124;  [log](https://download.openmmlab.com/mim-example/knet/) |
+| R-101-DCN | K-Net | ms-3x | 40.5 |[config](configs/det/knet/knet_s3_r101_dcn-c3-c5_fpn_ms-3x_coco.py) | [model](https://download.openmmlab.com/mim-example/knet/det/knet/knet_s3_r101_dcn-c3-c5_fpn_ms-3x_coco/knet_s3_r101_dcn-c3-c5_fpn_ms-3x_coco_20211017_054515-163a3126.pth) &#124;  [log](https://download.openmmlab.com/mim-example/knet/det/knet/knet_s3_r101_dcn-c3-c5_fpn_ms-3x_coco/knet_s3_r101_dcn-c3-c5_fpn_ms-3x_coco_20211017_054515.log.json) |
 
 ### Panoptic Segmentattion on COCO
 
 | Backbone | Method | Lr Schd | PQ | Config | Download |
 | :---: | :---: | :---: | :---: | :---: | :---: |
-| R-50  | K-Net | 1x| 44.3 |[config](configs/det/knet/knet_s3_r50_fpn_1x_coco-panoptic.py) | [model]() &#124;  [log]() |
-| R-50  | K-Net | ms-3x| 47.1 |[config](configs/det/knet/knet_s3_r50_fpn_ms-3x_coco-panoptic.py) | [model]() &#124;  [log]() |
-| R-101  | K-Net | ms-3x| 48.4 |[config](configs/det/knet/knet_s3_r101_fpn_ms-3x_coco-panoptic.py) | [model]() &#124;  [log]() |
-| R-101-DCN  | K-Net | ms-3x| 49.6 |[config](configs/det/knet/knet_s3_r101_dcn-c3-c5_fpn_ms-3x_coco-panoptic.py) | [model]() &#124;  [log]() |
-| Swin-L (window size 7)  | K-Net | ms-3x| 54.6 |[config](configs/det/knet/knet_s3_swin-l_fpn_ms-3x_16x2_coco-panoptic.py) | [model]() &#124;  [log]() |
+| R-50  | K-Net | 1x| 44.3 |[config](configs/det/knet/knet_s3_r50_fpn_1x_coco-panoptic.py) | [model](https://download.openmmlab.com/mim-example/knet/det/knet/knet_s3_r50_fpn_1x_coco-panoptic/knet_s3_r50_fpn_1x_coco-panoptic_20211017_151750-395fbcba.pth) &#124;  [log](https://download.openmmlab.com/mim-example/knet/det/knet/knet_s3_r50_fpn_1x_coco-panoptic/knet_s3_r50_fpn_1x_coco-panoptic_20211017_151750.log.json) |
+| R-50  | K-Net | ms-3x| 47.1 |[config](configs/det/knet/knet_s3_r50_fpn_ms-3x_coco-panoptic.py) | [model](https://download.openmmlab.com/mim-example/knet/det/knet/knet_s3_r50_fpn_ms-3x_coco-panoptic/knet_s3_r50_fpn_ms-3x_coco-panoptic_20211017_054613-4375b8be.pth) &#124;  [log](https://download.openmmlab.com/mim-example/knet/det/knet/knet_s3_r50_fpn_ms-3x_coco-panoptic/knet_s3_r50_fpn_ms-3x_coco-panoptic_20211017_054613.log.json) |
+| R-101  | K-Net | ms-3x| 48.4 |[config](configs/det/knet/knet_s3_r101_fpn_ms-3x_coco-panoptic.py) | [model](https://download.openmmlab.com/mim-example/knet/det/knet/knet_s3_r101_fpn_ms-3x_coco-panoptic/knet_s3_r101_fpn_ms-3x_coco-panoptic_20211017_054501-9c600b0c.pth) &#124;  [log](https://download.openmmlab.com/mim-example/knet/det/knet/knet_s3_r101_fpn_ms-3x_coco-panoptic/knet_s3_r101_fpn_ms-3x_coco-panoptic_20211017_054501.log.json) |
+| R-101-DCN  | K-Net | ms-3x| 49.6 |[config](configs/det/knet/knet_s3_r101_dcn-c3-c5_fpn_ms-3x_coco-panoptic.py) | [model](https://download.openmmlab.com/mim-example/knet/det/knet/knet_s3_r101_dcn-c3-c5_fpn_ms-3x_coco-panoptic/knet_s3_r101_dcn-c3-c5_fpn_ms-3x_coco-panoptic_20211019_191549-6d13fab7.pth) &#124;  [log](https://download.openmmlab.com/mim-example/knet/det/knet/knet_s3_r101_dcn-c3-c5_fpn_ms-3x_coco-panoptic/knet_s3_r101_dcn-c3-c5_fpn_ms-3x_coco-panoptic_20211019_191549.log.json) |
+| Swin-L (window size 7)  | K-Net | ms-3x| 54.6 |[config](configs/det/knet/knet_s3_swin-l_fpn_ms-3x_16x2_coco-panoptic.py) | [model](https://download.openmmlab.com/mim-example/knet/det/knet/knet_s3_swin-l_fpn_ms-3x_16x2_coco-panoptic/knet_s3_swin-l_fpn_ms-3x_16x2_coco-panoptic_20211020_062341-62f3bbff.pth) &#124;  [log](https://download.openmmlab.com/mim-example/knet/det/knet/knet_s3_swin-l_fpn_ms-3x_16x2_coco-panoptic/knet_s3_swin-l_fpn_ms-3x_16x2_coco-panoptic_20211020_062341.log.json) |
 | Above on test-dev  | | | 55.2 | | |
 
 ## Installation
@@ -82,7 +84,8 @@ data/
 │   ├── annotations
 │   │   ├── panoptic_{train,val}2017.json
 │   │   ├── instance_{train,val}2017.json
-│   │   ├── panoptic_{train,val}2017/  # png annotations
+│   │   ├── panoptic_{train,val}2017/  # panoptic png annotations
+│   │   ├── image_info_test-dev2017.json  # for test-dev submissions
 │   ├── train2017
 │   ├── val2017
 │   ├── test2017
@@ -115,7 +118,7 @@ For test submission for panoptic segmentation, you can use the command below:
 ```bash
 # we should update the category information in the original image test-dev pkl file
 # for panoptic segmentation
-python -u gen_panoptic_test_info.py
+python -u tools/gen_panoptic_test_info.py
 # run test-dev submission
 sh ./tools/mim_slurm_test.sh $PARTITION mmdet $CONFIG $CHECKPOINT  --format-only --cfg-options data.test.ann_file=data/coco/annotations/panoptic_image_info_test-dev2017.json data.test.img_prefix=data/coco/test2017 --eval-options jsonfile_prefix=$WORK_DIR
 ```
@@ -137,7 +140,7 @@ PYTHONPATH='.':$PYTHONPATH mim train mmseg $CONFIG $WORK_DIR
 
 ```
 @inproceedings{zhang2021knet,
-    title={{K-Net: Towards} Unified Image Segmentation}, 
+    title={{K-Net: Towards} Unified Image Segmentation},
     author={Wenwei Zhang and Jiangmiao Pang and Kai Chen and Chen Change Loy},
     year={2021},
     booktitle={NeurIPS},

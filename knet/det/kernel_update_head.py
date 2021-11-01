@@ -2,14 +2,16 @@ import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from mmcv.cnn import (ConvModule, bias_init_with_prob,
-                      build_activation_layer, build_norm_layer)
+from mmcv.cnn import (ConvModule, bias_init_with_prob, build_activation_layer,
+                      build_norm_layer)
+from mmcv.cnn.bricks.transformer import (FFN, MultiheadAttention,
+                                         build_transformer_layer)
 from mmcv.runner import force_fp32
+
 from mmdet.core import multi_apply
 from mmdet.models.builder import HEADS, build_loss
 from mmdet.models.dense_heads.atss_head import reduce_mean
 from mmdet.models.losses import accuracy
-from mmcv.cnn.bricks.transformer import FFN, MultiheadAttention, build_transformer_layer
 from mmdet.utils import get_root_logger
 
 
@@ -97,8 +99,8 @@ class KernelUpdateHead(nn.Module):
         self.ignore_label = ignore_label
         self.thing_label_in_seg = thing_label_in_seg
 
-        self.attention = MultiheadAttention(
-            in_channels * conv_kernel_size**2, num_heads, dropout)
+        self.attention = MultiheadAttention(in_channels * conv_kernel_size**2,
+                                            num_heads, dropout)
         self.attention_norm = build_norm_layer(
             dict(type='LN'), in_channels * conv_kernel_size**2)[1]
 
@@ -201,8 +203,7 @@ class KernelUpdateHead(nn.Module):
         obj_feat = self.kernel_update_conv(x_feat, proposal_feat)
 
         # [B, N, K*K, C] -> [B, N, K*K*C] -> [N, B, K*K*C]
-        obj_feat = obj_feat.reshape(N, num_proposals,
-                                    -1).permute(1, 0, 2)
+        obj_feat = obj_feat.reshape(N, num_proposals, -1).permute(1, 0, 2)
         obj_feat = self.attention_norm(self.attention(obj_feat))
         # [N, B, K*K*C] -> [B, N, K*K*C]
         obj_feat = obj_feat.permute(1, 0, 2)
@@ -226,9 +227,7 @@ class KernelUpdateHead(nn.Module):
         # [B, N, K*K, C] -> [B, N, C, K*K]
         mask_feat = self.fc_mask(mask_feat).permute(0, 1, 3, 2)
 
-
-        if (self.mask_transform_stride == 2
-                and self.feat_gather_stride == 1):
+        if (self.mask_transform_stride == 2 and self.feat_gather_stride == 1):
             mask_x = F.interpolate(
                 x, scale_factor=0.5, mode='bilinear', align_corners=False)
             H, W = mask_x.shape[-2:]
@@ -411,7 +410,7 @@ class KernelUpdateHead(nn.Module):
                     concat=True,
                     gt_sem_seg=None,
                     gt_sem_cls=None):
-  
+
         pos_inds_list = [res.pos_inds for res in sampling_results]
         neg_inds_list = [res.neg_inds for res in sampling_results]
         pos_mask_list = [res.pos_masks for res in sampling_results]

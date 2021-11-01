@@ -1,12 +1,10 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from mmcv.cnn import (ConvModule, bias_init_with_prob, build_activation_layer,
-                      build_norm_layer)
-from mmcv.runner import force_fp32
-from mmcv.cnn.bricks.transformer import FFN, MultiheadAttention, build_transformer_layer
-from mmseg.models.builder import HEADS, build_loss
-from mmseg.models.losses import accuracy
+from mmcv.cnn import ConvModule, build_activation_layer, build_norm_layer
+from mmcv.cnn.bricks.transformer import (FFN, MultiheadAttention,
+                                         build_transformer_layer)
+from mmseg.models.builder import HEADS
 from mmseg.utils import get_root_logger
 
 
@@ -55,8 +53,8 @@ class KernelUpdateHead(nn.Module):
         self.mask_transform_stride = mask_transform_stride
         self.mask_upsample_stride = mask_upsample_stride
 
-        self.attention = MultiheadAttention(
-            in_channels * conv_kernel_size**2, num_heads, dropout)
+        self.attention = MultiheadAttention(in_channels * conv_kernel_size**2,
+                                            num_heads, dropout)
         self.attention_norm = build_norm_layer(
             dict(type='LN'), in_channels * conv_kernel_size**2)[1]
         self.kernel_update_conv = build_transformer_layer(kernel_updator_cfg)
@@ -89,8 +87,7 @@ class KernelUpdateHead(nn.Module):
                 nn.Linear(in_channels, in_channels, bias=False))
             self.mask_fcs.append(
                 build_norm_layer(dict(type='LN'), in_channels)[1])
-            self.mask_fcs.append(
-                build_activation_layer(act_cfg))
+            self.mask_fcs.append(build_activation_layer(act_cfg))
 
         self.fc_mask = nn.Linear(in_channels, out_channels)
 
@@ -152,8 +149,7 @@ class KernelUpdateHead(nn.Module):
         obj_feat = self.kernel_update_conv(x_feat, proposal_feat)
 
         # [B, N, K*K, C] -> [B, N, K*K*C] -> [N, B, K*K*C]
-        obj_feat = obj_feat.reshape(N, num_proposals,
-                                    -1).permute(1, 0, 2)
+        obj_feat = obj_feat.reshape(N, num_proposals, -1).permute(1, 0, 2)
         obj_feat = self.attention_norm(self.attention(obj_feat))
         # [N, B, K*K*C] -> [B, N, K*K*C]
         obj_feat = obj_feat.permute(1, 0, 2)
@@ -182,6 +178,8 @@ class KernelUpdateHead(nn.Module):
         # group conv is 5x faster than unfold and uses about 1/5 memory
         # Group conv vs. unfold vs. concat batch, 2.9ms :13.5ms :3.8ms
         # Group conv vs. unfold vs. concat batch, 278 : 1420 : 369
+        # but in real training group conv is slower than concat batch
+        # so we keep using concat batch.
         # fold_x = F.unfold(
         #     mask_x,
         #     self.conv_kernel_size,

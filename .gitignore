@@ -124,3 +124,4 @@ debug/*
 vis/
 analysis/*
 pretrain/*
+*.dist_test
