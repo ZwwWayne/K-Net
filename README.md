@@ -36,7 +36,7 @@ The complete model checkpoints and logs for instance and semantic segmentation w
 | R-101  | K-Net | ms-3x    | 39.2 |[config](configs/det/knet/knet_s3_r101_fpn_ms-3x_coco.py) | [model](https://download.openmmlab.com/mim-example/knet/) &#124;  [log](https://download.openmmlab.com/mim-example/knet/) |
 | R-101-DCN | K-Net | ms-3x | 40.5 |[config](configs/det/knet/knet_s3_r101_dcn-c3-c5_fpn_ms-3x_coco.py) | [model](https://download.openmmlab.com/mim-example/knet/det/knet/knet_s3_r101_dcn-c3-c5_fpn_ms-3x_coco/knet_s3_r101_dcn-c3-c5_fpn_ms-3x_coco_20211017_054515-163a3126.pth) &#124;  [log](https://download.openmmlab.com/mim-example/knet/det/knet/knet_s3_r101_dcn-c3-c5_fpn_ms-3x_coco/knet_s3_r101_dcn-c3-c5_fpn_ms-3x_coco_20211017_054515.log.json) |
 
-### Panoptic Segmentattion on COCO
+### Panoptic Segmentation on COCO
 
 | Backbone | Method | Lr Schd | PQ | Config | Download |
 | :---: | :---: | :---: | :---: | :---: | :---: |
@@ -74,7 +74,7 @@ This project is released under the [Apache 2.0 license](LICENSE).
 
 Prepare data following [MMDetection](https://github.com/open-mmlab/mmdetection) and [MMSegmentation](https://github.com/open-mmlab/mmsegmentation). The data structure looks like below:
 
-```
+```text
 data/
 ├── ade
 │   ├── ADEChallengeData2016
@@ -138,7 +138,7 @@ PYTHONPATH='.':$PYTHONPATH mim train mmseg $CONFIG $WORK_DIR
 
 ## Citation
 
-```
+```bibtex
 @inproceedings{zhang2021knet,
     title={{K-Net: Towards} Unified Image Segmentation},
     author={Wenwei Zhang and Jiangmiao Pang and Kai Chen and Chen Change Loy},
