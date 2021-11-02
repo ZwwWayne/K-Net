@@ -1,5 +1,7 @@
 # K-Net: Towards Unified Image Segmentation
 
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/k-net-towards-unified-image-segmentation/panoptic-segmentation-on-coco-test-dev)](https://paperswithcode.com/sota/panoptic-segmentation-on-coco-test-dev?p=k-net-towards-unified-image-segmentation)
+
 ## Introduction
 
 This is an official release of the paper **K-Net:Towards Unified Image Segmentation**. K-Net will also be integrated in the future release of MMDetection and MMSegmentation.
