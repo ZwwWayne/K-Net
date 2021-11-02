@@ -4,10 +4,10 @@
 
 This is an official release of the paper **K-Net:Towards Unified Image Segmentation**. K-Net will also be integrated in the future release of MMDetection and MMSegmentation.
 
-> [**K-Net:Towards Unified Image Segmentation**](https://arxiv.org/abs/2106.14855),
-> Wenwei Zhang, Jiangmiao Pang, Kai Chen, Chen Change Loy
-> In: Proc. Advances in Neural Information Processing Systems (NeurIPS), 2021
-> *arXiv preprint ([arXiv 2106.14855](https://arxiv.org/abs/2106.14855))*
+> [**K-Net:Towards Unified Image Segmentation**](https://arxiv.org/abs/2106.14855),            
+> Wenwei Zhang, Jiangmiao Pang, Kai Chen, Chen Change Loy            
+> In: Proc. Advances in Neural Information Processing Systems (NeurIPS), 2021            
+> [[arXiv](https://arxiv.org/abs/2106.14855)][[project page](https://www.mmlab-ntu.com/project/knet/index.html)][[Bibetex](https://github.com/ZwwWayne/K-Net#citation)]
 
 ## Results
 
