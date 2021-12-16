@@ -297,7 +297,7 @@ class ConvKernelHead(nn.Module):
 
         sampling_results = []
         if cls_scores is None:
-            detached_cls_scores = [None] * 2
+            detached_cls_scores = [None] * num_imgs
         else:
             detached_cls_scores = cls_scores.detach()
 
